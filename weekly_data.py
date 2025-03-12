@@ -61,7 +61,7 @@ else:
 
 # 🔹 Buttons for Graph Selection
 st.write("Select Graph to Display")
-selected_graph = st.radio("Choose a Graph:", ["Existing Resolution Time Graph", "Tickets by Root Cause", "Average Hours to Resolve", "Total Hours by Root Cause"])
+selected_graph = st.radio("Choose a Graph:", ["Existing Resolution Time Graph", "Tickets by Root Cause", "Average Hours to Resolve", "Total Tickets by Root Cause"])
 
 # 🔹 Graph 1: Existing Resolution Time Graph
 if selected_graph == "Existing Resolution Time Graph":
@@ -110,14 +110,13 @@ elif selected_graph == "Average Hours to Resolve":
     else:
         st.warning("⚠ Not enough data for Resolution Time graph.")
 
-# 🔹 Graph 4: Total Hours by Root Cause
-elif selected_graph == "Total Hours by Root Cause":
-    st.write("Total Hours by Root Cause")
+# 🔹 Graph 4: Total Tickets by Root Cause
+elif selected_graph == "Total Tickets by Root Cause":
+    st.write("Total Tickets by Root Cause")
     if not filtered_df.empty:
-        total_hours = filtered_df.groupby("Root Cause for PBSD")["Total Hrs"].sum().reset_index()
-        total_hours["Total Hrs"] = total_hours["Total Hrs"].round(1)
+        total_tickets = filtered_df.groupby("Root Cause for PBSD").size().reset_index(name="Ticket Count")
         
-        fig4 = px.bar(total_hours, x="Root Cause for PBSD", y="Total Hrs", text_auto=".1f", title="Total Hours by Root Cause")
+        fig4 = px.bar(total_tickets, x="Root Cause for PBSD", y="Ticket Count", text_auto=".1f", title="Total Tickets by Root Cause")
         st.plotly_chart(fig4, use_container_width=True)
     else:
-        st.warning("⚠ Not enough data for Total Hours by Root Cause graph.")
+        st.warning("⚠ Not enough data for Total Tickets by Root Cause graph.")
