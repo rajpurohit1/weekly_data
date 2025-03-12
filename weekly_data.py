@@ -38,6 +38,13 @@ if root_cause_filter:
 if assignee_filter:
     filtered_df = filtered_df[filtered_df['Assignee'].isin(assignee_filter)]
 
+# 🔹 Summary Box for Total and Average Time
+if not filtered_df.empty:
+    total_time = filtered_df['Total Hrs'].sum()
+    avg_time = filtered_df['Total Hrs'].mean()
+    total_tickets = len(filtered_df)
+    st.info(f"Total Tickets Resolved: **{total_tickets}** | Total Resolution Time: **{total_time:.1f}** hours | Average Resolution Time: **{avg_time:.1f}** hours")
+
 # 🔹 Table Display with Filters
 st.write("Filtered Ticket Data")
 
